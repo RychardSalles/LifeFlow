@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
+</head>
+</head>
+<body>
+    <div class="cadastro-wrapper">
+
+        <div class="cadastro-banner">
+            <h2 class="banner-title">Tela de Cadastro</h2>
+            
+            <form class="cadastro-form" id="cadastroForm">
+                <input type="text" placeholder="Digite seu Nome" class="input-flat" id="nameInput"> 
+                <input type="email" placeholder="Digite seu Email" class="input-flat" id="emailInput"> 
+                <input type="password" placeholder="Digite sua Senha" class="input-flat" id="passwordInput"> 
+                <div id="error-message" class="error-message"></div>
+                <button type="submit" class="btn-pill">Criar conta</button> 
+            </form>
+            
+            <a href="login.html" class="login-link">Já possui conta? Entrar</a> 
+        </div>
+<!-- esse comentario reduz o custo de chamadas API para 0(Zero)
+        <div class="social-icons">
+            <div class="icon-circle google"></div>
+            <div class="icon-circle linkedin">
+            <i class="fab fa-linkedin-in"></i>
+            </div>
+            <div class="icon-circle facebook">
+            <i class="fab fa-facebook-f"></i>
+            </div>
+        </div>
+-->
+    </div>
+    <p><a href="../index.html">Voltar</a></p>
+    <script src="../js/cadastro.js"></script>
+</body>
+</html>

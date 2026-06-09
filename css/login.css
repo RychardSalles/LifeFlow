@@ -1,0 +1,155 @@
+/* LOGIN */
+.login-screen {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.error-message {
+    color: #e74c3c;
+    background-color: #fdecea;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: -10px; /* Ajuste para aproximar dos inputs se necessário */
+    font-size: 14px;
+    display: none; /* Escondido por padrão */
+    text-align: center;
+}
+/* --- LADO ESQUERDO --- */
+.welcome-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: auto;
+  justify-content: auto;
+  text-align: auto;
+  padding: 20px;
+}
+
+.welcome-img {
+  max-width: 320px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.welcome-title {
+  font-size: 32px;
+  color: #000000;
+  margin: 10px 0;
+}
+
+.welcome-text {
+  font-size: 18px;
+  color: #333333;
+  margin: 0;
+}
+
+/* --- LADO DIREITO (Painel com as 3 caixas) --- */
+.login-container {
+  position: relative; /* Importante para ancorar as outras caixas atrás */
+  background-color: #d9d9d9; /* Cor cinza clara do painel frontal */
+  padding: 120px 45px 60px 45px; /* Aumentado o padding superior para descer o texto */
+  border-radius: 60px 0 0 60px; /* Bordas arredondadas apenas do lado esquerdo */
+  width: 100%;
+  max-width: 520px; /* Largura proporcional ao anexo */
+  min-height: 85vh; /* Faz ele cobrir quase toda a altura */
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: -10px 0 25px rgba(0, 0, 0, 0.05);
+}
+
+/* Segunda Caixa (Camada do Meio) */
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: -4vh; /* Deslocada um pouco para cima */
+  left: 0;
+  right: 0;
+  bottom: 4vh;
+  background-color: #bebebe; /* Tom de cinza intermediário */
+  border-radius: 60px 0 0 60px;
+  z-index: -1; /* Fica atrás da principal */
+}
+
+/* Terceira Caixa (Camada de Trás) */
+.login-container::after {
+  content: "";
+  position: absolute;
+  top: -8vh; /* Deslocada mais para cima */
+  left: 0;
+  right: 0;
+  bottom: 8vh;
+  background-color: #d9d9d9;
+  border-radius: 60px 0 0 60px;
+  z-index: -2; /* Fica atrás de todas */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 35px;
+}
+
+/* Inputs com gradiente sutil de ciano para branco */
+.input-field {
+  width: 100%;
+  padding: 16px 25px;
+  font-size: 16px;
+  background: linear-gradient(180deg, #bafffb 0%, #ffffff 100%);
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.input-field::placeholder {
+  color: #84bfae;
+}
+
+/* Botão Continue modificado para a cor ciano da imagem */
+.btn-continue {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: normal;
+  background-color: #5ce1e6; /* Tom azul ciano idêntico ao do anexo */
+  color: #000000;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn-continue:hover {
+  opacity: 0.9;
+}
+
+/* Link inferior */
+.cadastro-link {
+  display: inline-block;
+  color: #3195f2;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.cadastro-link:hover {
+  text-decoration: underline;
+}
+
+.texto-login {
+    margin-bottom: 50px;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+}

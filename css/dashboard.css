@@ -1,0 +1,65 @@
+.btn-menu{
+  width: 50px;
+  height: 50px;
+  left: 1%;
+  position: fixed;
+  z-index: 101;
+  border-radius: 200px;
+}
+.btn-menu:hover{
+    box-shadow: 0px 4px 8px 0px rgba(71, 98, 187, 0.4);
+}
+
+.slide-menu{
+  height: 100%;
+  width: 0%;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: #3751c4;
+  overflow-x: auto;
+  padding-top: 60px; 
+  transition: 0.3s;
+}
+.slide-menu a{
+    padding: 40px 5px 0px 30px;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: museosans;
+    color: #fff;
+    display: flex;
+    vertical-align: middle;
+}
+.slide-menu h1{
+    padding: 20px 5px 0px 30px;
+    font-size: 30px;
+    font-family: caviar_dreams;
+    color: #000;
+    display: block;
+}
+.slide-menu a:hover, .offcanvas a:focus{
+    color: #afafaf;
+}
+.main-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.chart-box {
+    width: 100%;
+    max-width: 450px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}

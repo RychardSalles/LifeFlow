@@ -1,0 +1,116 @@
+
+/* CADASTRO */
+.cadastro-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.cadastro-banner {
+  background-color: #a3a3a3;
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 80px 60px 80px;
+  text-align: center;
+  box-sizing: border-box;
+
+  clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 50% 96%, 0% 90%);
+}
+
+.banner-title {
+  color: #000000;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.input-flat {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  box-sizing: border-box;
+  color: #555;
+  background: linear-gradient(180deg, #bafffb 0%, #ffffff 100%); /* */
+}
+.input-flat::placeholder {
+  color: #84bfae;
+}
+
+.btn-pill {
+  background-color: #7ee376;
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 15px auto 5px auto;
+  width: fit-content;
+  transition: transform 0.1s ease;
+}
+.btn-pill:active {
+  transform: scale(0.98);
+}
+.error-message {
+    color: #e74c3c;
+    background-color: #fdecea;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: -10px; /* Ajuste para aproximar dos inputs se necessário */
+    font-size: 14px;
+    display: none; /* Escondido por padrão */
+    text-align: center;
+}
+.login-link {
+  display: inline-block;
+  color: #3195f2;
+  text-decoration: none;
+  font-size: 15px;
+  margin-top: 45px;
+}
+.login-link:hover {
+  text-decoration: underline;
+}
+/*
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+.icon-circle.google {
+  background-color: #0066ff;
+}
+.icon-circle.linkedin {
+  background-color: #0077b5;
+}
+.icon-circle.facebook {
+  background-color: #1877f2;
+}
+*/

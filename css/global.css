@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Gradiente de azul bebê (#89CFF0) até o branco (#FFFFFF) */
+    background: linear-gradient(180deg, #89CFF0 0%, #FFFFFF 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 1rem 2rem;
+    backdrop-filter: blur(5px);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+main {
+    padding: 2rem;
+    text-align: center;
+}
