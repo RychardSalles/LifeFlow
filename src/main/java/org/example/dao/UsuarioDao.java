@@ -1,19 +1,16 @@
 package org.example.dao;
+import org.example.connection.Conexao;
 import org.example.model.Usuario;
 
 import java.sql.*;
 
 public class UsuarioDao {
-    private final String url = "jdbc:mysql://localhost:3306/lifeflow";
-    private final String usuarioBanco = "root";
-    private final String senhaBanco = "0Turob25@";
 
-    public void cadatraUsuario(Usuario Usuario) {
+    public void cadatrarUsuario(Usuario Usuario) {
         String sql = "insert into usuarios (nome, email, senha) VALUE (?,?,?)";
 
         try {
-            Connection conexao = DriverManager.getConnection(url, usuarioBanco, senhaBanco);
-
+            Connection conexao = Conexao.conectar();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, Usuario.getNome());
             stmt.setString(2, Usuario.getEmail());
@@ -35,7 +32,7 @@ public class UsuarioDao {
         String sql = "SELECT * FROM usuarios";
 
         try {
-            Connection conexao = DriverManager.getConnection(url, usuarioBanco, senhaBanco);
+            Connection conexao = Conexao.conectar();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             ResultSet resultado = stmt.executeQuery();
 
@@ -60,7 +57,7 @@ public class UsuarioDao {
         String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?";
 
         try{
-            Connection conexao = DriverManager.getConnection(url, usuarioBanco, senhaBanco);
+            Connection conexao = Conexao.conectar();
             PreparedStatement stmt = conexao.prepareStatement(sql);
 
             stmt.setString(1, usuario.getNome());
@@ -83,7 +80,7 @@ public class UsuarioDao {
         String sql = "DELETE FROM usuarios WHERE id = ?";
 
         try{
-            Connection conexao = DriverManager.getConnection(url,usuarioBanco,senhaBanco);
+            Connection conexao = Conexao.conectar();
             PreparedStatement stmt = conexao.prepareStatement(sql);
 
             stmt.setInt(1,id);

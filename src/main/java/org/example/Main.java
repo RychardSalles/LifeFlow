@@ -1,21 +1,24 @@
 package org.example;
 
-import org.example.dao.UsuarioDao;
-import org.example.model.Usuario;
+import org.example.dao.TarefaDao;
+import org.example.model.Tarefa;
+
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
 
-        Usuario usuario = new Usuario();
+        Tarefa tarefa = new Tarefa();
 
-        usuario.setId(1);
-        usuario.setNome("Rychard");
-        usuario.setEmail("rd@email.com");
-        usuario.setSenha("123456");
+        tarefa.setTitulo("Estudar Java");
+        tarefa.setDescricao("Fazer o DAO de tarefas");
+        tarefa.setDataTarefa(LocalDate.of(2026, 6, 9));
+        tarefa.setStatusTarefa("Pendente");
+        tarefa.setUsuarioId(6);
 
-        UsuarioDao usuarioDao = new UsuarioDao();
+        TarefaDao tarefaDao = new TarefaDao();
 
-        usuarioDao.cadatraUsuario(usuario);
-        usuarioDao.listarUsuarios();
+        tarefaDao.cadastrarTarefa(tarefa);
+        tarefaDao.listarTarefas();
     }
 }
