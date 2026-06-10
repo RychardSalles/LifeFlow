@@ -10,7 +10,7 @@ public class Conexao {
 
         private static final String url = "jdbc:mysql://localhost:3306/lifeflow";
         private static final String usuario = "root";
-        private static final String senha = "";
+        private static final String senha = "0Turob25@";
 
         public static Connection conectar(){
 
