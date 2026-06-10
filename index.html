@@ -10,10 +10,12 @@
 <body class="home-page"> <header>
         <nav>
             <h1>LifeFlow</h1>
-            <ul class="nav-buttons">
-                <li><button class="cadastro-btn" onclick="window.location.href='paginas/cadastro.html';">Cadastro</button></li>
-                <li><button class="login-btn" onclick="window.location.href='paginas/login.html';">Login</button></li>
-            </ul>
+            <div class="auth-nav">
+                <ul class="nav-buttons">
+                    <li><button class="cadastro-btn" onclick="window.location.href='paginas/cadastro.html';">Cadastro</button></li>
+                    <li><button class="login-btn" onclick="window.location.href='paginas/login.html';">Login</button></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -21,6 +23,7 @@
         <section class="hero-text">
             <h2>Bem Vindo ao LifeFlow</h2>
             <p>Simplifique sua rotina diária</p>
+            <a href="paginas/dashboard.html">Dashboard</a>
         </section>
 
         <section class="quote-container">
@@ -35,6 +38,12 @@
         <p>&copy; 2026 LifeFlow. Direitos Reservados.</p>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script>
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script src="js/global-auth.js" defer></script>
 </body>
 </html>

@@ -1,15 +1,22 @@
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
-    
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const errorMessage = document.getElementById('error-message');
 
-    // Verificação de campos: E-mail com @ e senha não vazia
     if (!email.includes("@") || password.trim() === "") {
-        this.reset(); // Limpa o formulário
+        this.reset();
         errorMessage.textContent = "Por favor, insira um e-mail válido e preencha a senha.";
         errorMessage.style.display = "block";
+        return;
+    }
+
+    // MOCK: Usuário temporário para teste sem backend
+    if (email === "teste@teste.com" && password === "123456") {
+        sessionStorage.setItem('meu_jwt', 'token-fake-12345');
+        sessionStorage.setItem('user_name', 'Usuário de Teste');
+        sessionStorage.setItem('user_email', email);
+        window.location.href = "dashboard.html";
         return;
     }
 
@@ -31,19 +38,21 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         });
 
         if (response.ok) {
-            // Sucesso: Redireciona para o dashboard
+            const dados = await response.json();
+
+            sessionStorage.setItem('meu_jwt', dados.token);
+            sessionStorage.setItem('user_name', dados.nome); // Assume que o Java envia o nome
+            sessionStorage.setItem('user_email', dados.email); // Opcional: para o perfil
             window.location.href = "dashboard.html";
         } else {
-            // Erro na API: Limpa o formulário e exibe mensagem
             this.reset();
             errorMessage.textContent = "E-mail ou senha incorretos. Tente novamente.";
             errorMessage.style.display = "block";
         }
     } catch (error) {
-        // Erro de conexão/Catch: Limpa o formulário e exibe mensagem
         console.error("Erro na requisição:", error);
         this.reset();
-        errorMessage.textContent = "Erro de conexão com o servidor. Tente mais tarde.";
+        errorMessage.textContent = "Não foi possível conectar ao servidor. Verifique sua conexão.";
         errorMessage.style.display = "block";
     }
 });

@@ -113,3 +113,56 @@ body.home-page footer {
     font-size: 0.9rem;
     z-index: 10;
 }
+
+/* Menu de Usuário Logado */
+.user-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.user-welcome {
+    color: white;
+    font-weight: 500;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    min-width: 150px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.user-menu-container:hover .user-dropdown {
+    display: block;
+}
+
+.user-dropdown a, .user-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    text-align: left;
+    text-decoration: none;
+    color: #333;
+    border: none;
+    background: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.user-dropdown button:hover, .user-dropdown a:hover {
+    background-color: #f5f5f5;
+}
+
+.logout-link {
+    color: #e74c3c !important;
+    border-top: 1px solid #eee !important;
+}

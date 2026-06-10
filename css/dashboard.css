@@ -63,3 +63,38 @@ canvas {
     width: 100% !important;
     height: auto !important;
 }
+
+/* Perfil do Usuário no Dashboard */
+.user-profile-card {
+    padding: 15px 25px;
+    background: #2c3e8c;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.user-profile-card:hover {
+    background: #3d54b8;
+}
+
+.user-options-list {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.user-profile-card.active .user-options-list {
+    display: block;
+}
+
+.user-options-list li {
+    padding: 12px;
+    color: #ff4d4d;
+    font-weight: bold;
+    text-align: center;
+}

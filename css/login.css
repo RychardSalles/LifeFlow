@@ -1,4 +1,3 @@
-/* LOGIN */
 .login-screen {
   display: flex;
   width: 100%;
@@ -14,9 +13,9 @@
     border: 1px solid #f5c6cb;
     padding: 10px;
     border-radius: 4px;
-    margin-top: -10px; /* Ajuste para aproximar dos inputs se necessário */
+    margin-top: -10px; 
     font-size: 14px;
-    display: none; /* Escondido por padrão */
+    display: none;
     text-align: center;
 }
 /* --- LADO ESQUERDO --- */
@@ -50,13 +49,13 @@
 
 /* --- LADO DIREITO (Painel com as 3 caixas) --- */
 .login-container {
-  position: relative; /* Importante para ancorar as outras caixas atrás */
-  background-color: #d9d9d9; /* Cor cinza clara do painel frontal */
-  padding: 120px 45px 60px 45px; /* Aumentado o padding superior para descer o texto */
-  border-radius: 60px 0 0 60px; /* Bordas arredondadas apenas do lado esquerdo */
+  position: relative; 
+  background-color: #d9d9d9;
+  padding: 120px 45px 60px 45px; 
+  border-radius: 60px 0 0 60px;
   width: 100%;
-  max-width: 520px; /* Largura proporcional ao anexo */
-  min-height: 85vh; /* Faz ele cobrir quase toda a altura */
+  max-width: 520px; 
+  min-height: 85vh; 
   text-align: center;
   box-sizing: border-box;
   display: flex;
@@ -69,26 +68,26 @@
 .login-container::before {
   content: "";
   position: absolute;
-  top: -4vh; /* Deslocada um pouco para cima */
+  top: -4vh;
   left: 0;
   right: 0;
   bottom: 4vh;
-  background-color: #bebebe; /* Tom de cinza intermediário */
+  background-color: #bebebe; 
   border-radius: 60px 0 0 60px;
-  z-index: -1; /* Fica atrás da principal */
+  z-index: -1;
 }
 
 /* Terceira Caixa (Camada de Trás) */
 .login-container::after {
   content: "";
   position: absolute;
-  top: -8vh; /* Deslocada mais para cima */
+  top: -8vh; 
   left: 0;
   right: 0;
   bottom: 8vh;
   background-color: #d9d9d9;
   border-radius: 60px 0 0 60px;
-  z-index: -2; /* Fica atrás de todas */
+  z-index: -2; 
 }
 
 .login-form {
@@ -98,7 +97,6 @@
   margin-bottom: 35px;
 }
 
-/* Inputs com gradiente sutil de ciano para branco */
 .input-field {
   width: 100%;
   padding: 16px 25px;
@@ -115,13 +113,12 @@
   color: #84bfae;
 }
 
-/* Botão Continue modificado para a cor ciano da imagem */
 .btn-continue {
   width: 100%;
   padding: 16px;
   font-size: 16px;
   font-weight: normal;
-  background-color: #5ce1e6; /* Tom azul ciano idêntico ao do anexo */
+  background-color: #5ce1e6;
   color: #000000;
   border: none;
   border-radius: 30px;

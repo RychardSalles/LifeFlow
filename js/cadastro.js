@@ -6,7 +6,6 @@ document.getElementById('cadastroForm').addEventListener('submit', async functio
     const password = document.getElementById('passwordInput').value;
     const errorMessage = document.getElementById('error-message');
 
-    // Verificação: Nome e Senha não vazios, E-mail com @
     if (nome.trim() === "" || password.trim() === "" || !email.includes("@")) {
         this.reset();
         errorMessage.textContent = "Erro: O nome e a senha não podem estar vazios, e o e-mail deve ser válido.";
