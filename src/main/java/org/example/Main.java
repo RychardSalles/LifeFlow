@@ -12,7 +12,7 @@ public class Main {
 
         tarefa.setTitulo("Estudar Java");
         tarefa.setDescricao("Fazer o DAO de tarefas");
-        tarefa.setDataTarefa(LocalDate.of(2026, 6, ));
+        tarefa.setDataTarefa(LocalDate.of(2026, 6, 10));
         tarefa.setStatusTarefa("Pendente");
         tarefa.setUsuarioId(6);
 
