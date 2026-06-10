@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TarefaDao {
 
@@ -30,8 +32,11 @@ public class TarefaDao {
             stmt.setDate(3,
                     java.sql.Date.valueOf(tarefa.getDataTarefa()));
 
-            stmt.setTime(4,
-                    java.sql.Time.valueOf(tarefa.getHorario()));
+            if (tarefa.getHorario() != null) {
+                stmt.setTime(4, java.sql.Time.valueOf(tarefa.getHorario()));
+            } else {
+                stmt.setNull(4, java.sql.Types.TIME);
+            }
 
             stmt.setString(5, tarefa.getStatusTarefa());
             stmt.setString(6, tarefa.getCategoria());
@@ -120,6 +125,44 @@ public class TarefaDao {
 
         } catch (Exception e) {
             System.out.println("Erro ao deletar tarefa");
+            e.printStackTrace();
+        }
+    }
+
+    public List<Tarefa> listarPorUsuario(int usuarioId) {
+        List<Tarefa> tarefas = new ArrayList<>();
+        String sql = "SELECT * FROM tarefas WHERE usuario_id = ?";
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setInt(1, usuarioId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Tarefa t = new Tarefa();
+                    t.setId(rs.getInt("id"));
+                    t.setTitulo(rs.getString("titulo"));
+                    t.setDescricao(rs.getString("descricao"));
+                    t.setDataTarefa(rs.getDate("data_tarefa").toLocalDate());
+                    t.setStatusTarefa(rs.getString("status_tarefa"));
+                    tarefas.add(t);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tarefas;
+    }
+
+    public void atualizarStatus(int id, String status) {
+        String sql = "UPDATE tarefas SET status_tarefa = ? WHERE id = ?";
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

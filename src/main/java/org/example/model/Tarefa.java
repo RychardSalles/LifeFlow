@@ -1,6 +1,7 @@
 package org.example.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Tarefa {
 
@@ -10,6 +11,9 @@ public class Tarefa {
     private LocalDate dataTarefa;
     private String statusTarefa;
     private int usuarioId;
+    private LocalTime horario;
+    private String categoria;
+    private String prioridade;
 
     public Tarefa(){
     }
@@ -62,4 +66,15 @@ public class Tarefa {
         this.usuarioId = usuarioId;
     }
 
+    public LocalTime getHorario() {return horario;}
+
+    public void setHorario(LocalTime horario){this.horario = horario;}
+
+    public String getCategoria() {return categoria;}
+
+    public void setCategoria(String categoria) {this.categoria = categoria;}
+
+    public String getPrioridade() {return prioridade;}
+
+    public void setPrioridade(String prioridade) {this.prioridade = prioridade;}
 }

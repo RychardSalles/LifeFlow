@@ -53,4 +53,8 @@ public class Evento {
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
+
+    public String getLocalEvento() {return localEvento;}
+
+    public void setLocalEvento(String localEvento) {this.localEvento = localEvento;}
 }
