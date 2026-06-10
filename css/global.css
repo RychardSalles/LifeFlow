@@ -10,7 +10,6 @@ body {
     background-attachment: fixed;
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
     line-height: 1.6;
 }
 
@@ -30,9 +29,4 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 1.5rem;
-}
-
-main {
-    padding: 2rem;
-    text-align: center;
 }

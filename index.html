@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeFlow</title>
     <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
-<body>
-    <header>
+<body class="home-page"> <header>
         <nav>
             <h1>LifeFlow</h1>
-            <ul>
-                <p><a href="paginas/login.html">Login</a></p>
-                <p><a href="paginas/cadastro.html">Cadastro</a></p>
+            <ul class="nav-buttons">
+                <li><button class="cadastro-btn" onclick="window.location.href='paginas/cadastro.html';">Cadastro</button></li>
+                <li><button class="login-btn" onclick="window.location.href='paginas/login.html';">Login</button></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section id="home">
-            <h2>Bem-Vindo ao LifeFlow</h2>
-            <p>Simplifique sua rotina diária.</p>
-            <p><a href="paginas/dashboard.html">Dashboard</a></p>
+    <main class="main-container">
+        <section class="hero-text">
+            <h2>Bem Vindo ao LifeFlow</h2>
+            <p>Simplifique sua rotina diária</p>
+        </section>
+
+        <section class="quote-container">
+            <blockquote>
+                “Não deixe pra amanhã o<br>que você pode fazer hoje”
+            </blockquote>
+            <cite>Rychard Salles</cite>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2026 LifeFlow. Direitos Reservados.</p>
     </footer>

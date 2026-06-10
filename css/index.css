@@ -1,0 +1,115 @@
+body.home-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative; 
+}
+
+/* Modificações leves nos botões dentro da navbar (nav ul) */
+.nav-buttons {
+    align-items: center;
+}
+
+.cadastro-btn, .login-btn {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: normal;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.cadastro-btn {
+    background-color: #5ce1e6;
+    color: #000000;
+}
+
+.cadastro-btn:hover {
+    background-color: #53d2d6;
+    opacity: 0.9;
+}
+
+.login-btn {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.login-btn:hover {
+    background-color: #ffffffcc;
+    opacity: 0.9;
+}
+
+/* Container do conteúdo que carrega a imagem de cozinha */
+.main-container {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('../img/Fundo-index.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    flex: 1; /* Faz a imagem ocupar todo o espaço vertical restante da tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Texto "Bem Vindo..." no canto superior esquerdo (dentro do Main) */
+.hero-text {
+    position: absolute;
+    top: 140px; /* Ajuste essa altura dependendo do tamanho do seu header */
+    left: 4rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hero-text h2 {
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.dashboard-link {
+    display: inline-block;
+    margin-top: 0.8rem;
+    color: #5ce1e6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Frase Central (Citação) */
+.quote-container {
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+    max-width: 600px;
+}
+
+.quote-container blockquote {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+
+.quote-container cite {
+    font-size: 1.3rem;
+    font-style: normal;
+    display: block;
+    opacity: 0.9;
+}
+
+/* Footer posicionado sobre a imagem (Sem barra branca inferior) */
+body.home-page footer {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 4rem;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.6); /* Cor escura discreta da imagem */
+    font-size: 0.9rem;
+    z-index: 10;
+}
