@@ -15,6 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     if (email === "teste@teste.com" && password === "123456") {
         sessionStorage.setItem('meu_jwt', 'token-fake-12345');
         sessionStorage.setItem('user_name', 'Usuário de Teste');
+        sessionStorage.setItem('user_id', '6'); // ID de teste
         sessionStorage.setItem('user_email', email);
         window.location.href = "dashboard.html";
         return;
@@ -42,6 +43,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
             sessionStorage.setItem('meu_jwt', dados.token);
             sessionStorage.setItem('user_name', dados.nome); // Assume que o Java envia o nome
+            sessionStorage.setItem('user_id', dados.id);     // Salva o ID retornado pelo banco
             sessionStorage.setItem('user_email', dados.email); // Opcional: para o perfil
             window.location.href = "dashboard.html";
         } else {

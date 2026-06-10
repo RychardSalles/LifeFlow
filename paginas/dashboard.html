@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="../css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 </head>
 <body> 
     <button onclick="toggleNav()"><img class="btn-menu" src="../img/menu-bar.png" alt="Menu"></button>
@@ -21,9 +22,12 @@
             <a href="login.html"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><b>  LOGIN</b></a>
         </div>
 
-    <div class="main-chart">
+    <div class="dashboard-content">
         <div class="chart-box">
             <canvas id="myPieChart"></canvas>
+        </div>
+        <div class="calendar-box">
+            <div id="calendar"></div>
         </div>
     </div>
 

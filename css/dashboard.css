@@ -41,12 +41,13 @@
 .slide-menu a:hover, .offcanvas a:focus{
     color: #afafaf;
 }
-.main-chart {
+.dashboard-content {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    padding: 40px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    min-height: 85vh;
+    padding: 80px 40px 40px 40px;
     box-sizing: border-box;
 }
 
@@ -56,7 +57,23 @@
     background-color: #ffffff;
     padding: 30px;
     border-radius: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.calendar-box {
+    width: 100%;
+    max-width: 800px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Ajuste fino para o FullCalendar */
+#calendar {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
 }
 
 canvas {

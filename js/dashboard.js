@@ -57,19 +57,24 @@ async function loadDashboardChart() {
     const ctx = canvas.getContext('2d');
 
     try {
-        const response = await fetchAutenticado('http://localhost:8080/api/dashboard/chart-data'); 
+        const usuarioId = sessionStorage.getItem('user_id');
+        const response = await fetchAutenticado(`http://localhost:8080/api/tarefas?usuarioId=${usuarioId}`); 
         
         if (!response.ok) 
             throw new Error('Erro ao carregar dados da API');
 
-        const data = await response.json();
+        const tarefas = await response.json();
+        
+        // Contabiliza tarefas por status
+        const concluidas = tarefas.filter(t => t.statusTarefa === "Concluída").length;
+        const pendentes = tarefas.length - concluidas;
 
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: data.labels,
+                labels: ["Concluídas", "Pendentes"],
                 datasets: [{
-                    data: data.values,
+                    data: [concluidas, pendentes],
                     backgroundColor: [
                         '#5ce1e6',
                         '#3195f2',
@@ -93,7 +98,118 @@ async function loadDashboardChart() {
     }
 }
 
+function initCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        },
+        selectable: true,
+        businessHours: true,
+        editable: true,
+        select: async function(info) {
+            const tipo = prompt('Digite "T" para nova Tarefa ou "E" para novo Evento:').toUpperCase();
+            
+            if (tipo !== 'T' && tipo !== 'E') {
+                calendar.unselect();
+                return;
+            }
+
+            const title = prompt('Digite o título:');
+            if (title) {
+                 const descricao = prompt('Digite uma breve descrição:');
+                const usuarioId = sessionStorage.getItem('user_id') || "6";
+
+                let url = "";
+                let corpo = {};
+
+                if (tipo === 'T') {
+                    url = 'http://localhost:8080/api/tarefas';
+                    corpo = {
+                        titulo: title,
+                        descricao: descricao,
+                        dataTarefa: info.startStr,
+                        statusTarefa: "Pendente",
+                        usuarioId: usuarioId.toString()
+                    };
+                } else {
+                    url = 'http://localhost:8080/api/eventos';
+                    // Ajusta formato para LocalDateTime (YYYY-MM-DDTHH:mm:ss)
+                    const dataEvento = info.startStr.includes("T") ? info.startStr : info.startStr + "T00:00:00";
+                    corpo = {
+                        titulo: title,
+                        descricao: descricao,
+                        dataEvento: dataEvento,
+                        usuarioId: usuarioId.toString()
+                    };
+                }
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(corpo)
+                    });
+
+                    if (response.ok) {
+                        calendar.addEvent({
+                            title: (tipo === 'T' ? "[T] " : "[E] ") + title,
+                            start: info.startStr,
+                            backgroundColor: tipo === 'T' ? '#5ce1e6' : '#3195f2',
+                            allDay: info.allDay
+                        });
+                    } else {
+                        alert('Erro ao salvar no servidor.');
+                    }
+                } catch (error) {
+                    console.error("Erro na requisição:", error);
+                }
+            }
+            calendar.unselect();
+        },
+        events: async function(info, successCallback, failureCallback) {
+            try {
+                const usuarioId = sessionStorage.getItem('user_id');
+                
+                const [resTarefas, resEventos] = await Promise.all([
+                    fetchAutenticado(`http://localhost:8080/api/tarefas?usuarioId=${usuarioId}`),
+                    fetchAutenticado(`http://localhost:8080/api/eventos?usuarioId=${usuarioId}`)
+                ]);
+
+                const tarefas = await resTarefas.json();
+                const eventos = await resEventos.json();
+
+                const formatTarefas = tarefas.map(t => ({
+                    title: "[T] " + t.titulo,
+                    start: t.dataTarefa,
+                    backgroundColor: '#5ce1e6'
+                }));
+
+                const formatEventos = eventos.map(e => ({
+                    title: "[E] " + e.titulo,
+                    start: e.dataEvento,
+                    backgroundColor: '#3195f2'
+                }));
+
+                successCallback([...formatTarefas, ...formatEventos]);
+            } catch (error) {
+                console.error("Erro ao carregar eventos do calendário:", error);
+                failureCallback(error);
+            }
+        }
+    });
+
+    calendar.render();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     displayUserInfo();
     loadDashboardChart();
+    initCalendar();
 });
