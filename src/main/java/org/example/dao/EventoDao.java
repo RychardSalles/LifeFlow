@@ -9,27 +9,36 @@ public class EventoDao {
 
     public void cadastrarEvento(Evento evento) {
 
-        String sql = "INSERT INTO eventos (titulo, descricao, data_evento, usuario_id) VALUES (?, ?, ?, ?)";
+        String sql =
+                "INSERT INTO eventos(titulo, descricao, data_evento, local_evento, usuario_id) VALUES (?, ?, ?, ?, ?)";
 
         try {
+
             Connection conexao = Conexao.conectar();
 
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+            PreparedStatement stmt =
+                    conexao.prepareStatement(sql);
 
             stmt.setString(1, evento.getTitulo());
             stmt.setString(2, evento.getDescricao());
-            stmt.setTimestamp(3, Timestamp.valueOf(evento.getDataEvento()));
-            stmt.setInt(4, evento.getUsuarioId());
+
+            stmt.setTimestamp(
+                    3,
+                    java.sql.Timestamp.valueOf(
+                            evento.getDataEvento()
+                    )
+            );
+
+            stmt.setString(4, evento.getLocalEvento());
+
+            stmt.setInt(5, evento.getUsuarioId());
 
             stmt.executeUpdate();
-
-            System.out.println("Evento cadastrado com sucesso!");
 
             stmt.close();
             conexao.close();
 
         } catch (Exception e) {
-            System.out.println("Erro ao cadastrar evento");
             e.printStackTrace();
         }
     }

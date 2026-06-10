@@ -10,27 +10,40 @@ import java.sql.Date;
 
 public class TarefaDao {
 
-    public void cadastrarTarefa(Tarefa tarefa){
-        String sql = "INSERT INTO tarefas (titulo, descricao, data_tarefa, status_tarefa, usuario_id) VALUES (?, ?, ?, ?, ?)";
+    public void cadastrarTarefa(Tarefa tarefa) {
+
+        String sql = """
+        INSERT INTO tarefas
+        (titulo, descricao, data_tarefa, horario,
+         status_tarefa, categoria, prioridade, usuario_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """;
 
         try {
             Connection conexao = Conexao.conectar();
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+
+            PreparedStatement stmt =
+                    conexao.prepareStatement(sql);
 
             stmt.setString(1, tarefa.getTitulo());
             stmt.setString(2, tarefa.getDescricao());
-            stmt.setDate(3, Date.valueOf(tarefa.getDataTarefa()));
-            stmt.setString(4, tarefa.getStatusTarefa());
-            stmt.setInt(5, tarefa.getUsuarioId());
+            stmt.setDate(3,
+                    java.sql.Date.valueOf(tarefa.getDataTarefa()));
+
+            stmt.setTime(4,
+                    java.sql.Time.valueOf(tarefa.getHorario()));
+
+            stmt.setString(5, tarefa.getStatusTarefa());
+            stmt.setString(6, tarefa.getCategoria());
+            stmt.setString(7, tarefa.getPrioridade());
+            stmt.setInt(8, tarefa.getUsuarioId());
 
             stmt.executeUpdate();
 
-            System.out.println("Tarefa cadastrada com sucesso!");
-
             stmt.close();
             conexao.close();
-        }catch (Exception e){
-            System.out.println("Erro ao cadastrar tarefa");
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

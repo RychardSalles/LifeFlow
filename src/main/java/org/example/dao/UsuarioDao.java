@@ -6,24 +6,24 @@ import java.sql.*;
 
 public class UsuarioDao {
 
-    public void cadastrarUsuario(Usuario Usuario) {
-        String sql = "insert into usuarios (nome, email, senha) VALUE (?,?,?)";
+    public void cadastrarUsuario(Usuario usuario) {
+
+        String sql = "INSERT INTO usuarios(nome, email, senha) VALUES (?, ?, ?)";
 
         try {
             Connection conexao = Conexao.conectar();
             PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, Usuario.getNome());
-            stmt.setString(2, Usuario.getEmail());
-            stmt.setString(3, Usuario.getSenha());
+
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
 
             stmt.executeUpdate();
 
-            System.out.println("Usuario cadastrado com sucesso!");
-
             stmt.close();
             conexao.close();
+
         } catch (Exception e) {
-            System.out.println("Erro ao cadastrar Usuário");
             e.printStackTrace();
         }
     }
@@ -97,6 +97,7 @@ public class UsuarioDao {
         }
     }
     public boolean fazerLogin(String email, String senha) {
+
         String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
 
         try {
@@ -106,18 +107,17 @@ public class UsuarioDao {
             stmt.setString(1, email);
             stmt.setString(2, senha);
 
-            ResultSet resultado = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
-            boolean loginValido = resultado.next();
+            boolean existe = rs.next();
 
-            resultado.close();
+            rs.close();
             stmt.close();
             conexao.close();
 
-            return loginValido;
+            return existe;
 
         } catch (Exception e) {
-            System.out.println("Erro ao fazer login");
             e.printStackTrace();
             return false;
         }

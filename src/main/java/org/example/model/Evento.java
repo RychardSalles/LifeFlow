@@ -8,6 +8,7 @@ public class Evento {
     private String titulo;
     private String descricao;
     private LocalDateTime dataEvento;
+    private String localEvento;
     private int usuarioId;
 
     public Evento() {

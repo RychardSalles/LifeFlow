@@ -52,30 +52,6 @@ public class ApiServer {
             }
         });
 
-        server.createContext("/api/login", exchange -> {
-            if (isOptions(exchange)) return;
-
-            if ("POST".equals(exchange.getRequestMethod())) {
-                String json = lerBody(exchange);
-
-                String email = pegarValor(json, "email");
-                String senha = pegarValor(json, "senha");
-                if (senha.isEmpty()){
-                    senha = pegarValor(json, "password");
-                }
-
-                UsuarioDao usuarioDao = new UsuarioDao();
-                boolean loginValido = usuarioDao.fazerLogin(email, senha);
-
-                if (loginValido) {
-                    responder(exchange, 200, "{\"mensagem\":\"Login realizado com sucesso!\"}");
-                } else {
-                    responder(exchange, 401, "{\"erro\":\"Email ou senha inválidos\"}");
-                }
-            } else {
-                responder(exchange, 405, "{\"erro\":\"Método não permitido\"}");
-            }
-        });
 
         server.createContext("/api/tarefas", exchange -> {
             if (isOptions(exchange)) return;
