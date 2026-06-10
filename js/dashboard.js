@@ -49,16 +49,17 @@ function displayUserInfo() {
     }
 }
 
+let myPieChart = null;
 async function loadDashboardChart() {
     const canvas = document.getElementById('myPieChart');
-    if (!canvas) 
-        return;
+    if (!canvas) return;
 
+    if (myPieChart) myPieChart.destroy();
     const ctx = canvas.getContext('2d');
 
     try {
         const usuarioId = sessionStorage.getItem('user_id');
-        const response = await fetchAutenticado(`http://localhost:8080/api/tarefas?usuarioId=${usuarioId}`); 
+        const response = await fetchAutenticado(`http://127.0.0.1:8080/api/tarefas?usuarioId=${usuarioId}`); 
         
         if (!response.ok) 
             throw new Error('Erro ao carregar dados da API');
@@ -66,15 +67,16 @@ async function loadDashboardChart() {
         const tarefas = await response.json();
         
         // Contabiliza tarefas por status
-        const concluidas = tarefas.filter(t => t.statusTarefa === "Concluída").length;
-        const pendentes = tarefas.length - concluidas;
+        const concluidas = tarefas.filter(t => t.statusTarefa === "Concluída" || t.statusTarefa === "Concluida").length;
+        const pendentes = tarefas.filter(t => t.statusTarefa === "Pendente" || t.statusTarefa === "").length;
+        const emAndamento = tarefas.filter(t => t.statusTarefa === "Em Andamento").length;
 
-        new Chart(ctx, {
+        myPieChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ["Concluídas", "Pendentes"],
+                labels: ["Concluídas", "Pendentes", "Em Andamento"],
                 datasets: [{
-                    data: [concluidas, pendentes],
+                    data: [concluidas, pendentes, emAndamento],
                     backgroundColor: [
                         '#5ce1e6',
                         '#3195f2',
@@ -98,6 +100,61 @@ async function loadDashboardChart() {
     }
 }
 
+let currentSelectionInfo = null;
+let currentCalendar = null;
+
+function fecharModal() {
+    const modal = document.getElementById('modalCadastro');
+    if (modal) modal.style.display = 'none';
+    if (currentCalendar) currentCalendar.unselect();
+    document.getElementById('formCadastro').reset();
+}
+
+async function excluirTarefa(id) {
+    if (!confirm("Tem certeza que deseja excluir esta tarefa?")) return;
+
+    try {
+        const response = await fetchAutenticado(`http://127.0.0.1:8080/api/tarefas?id=${id}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            loadDashboardChart();
+            if (currentCalendar) {
+                currentCalendar.refetchEvents();
+            }
+        } else {
+            alert('Erro ao excluir tarefa.');
+        }
+    } catch (error) {
+        console.error('Erro na exclusão:', error);
+    }
+}
+
+async function mudarStatusTarefa(id, titulo) {
+    if (!confirm(`Deseja marcar a tarefa "${titulo}" como Concluída?`)) return;
+
+    try {
+        const response = await fetchAutenticado('http://127.0.0.1:8080/api/tarefas', {
+            method: 'PUT',
+            body: JSON.stringify({
+                id: id,
+                statusTarefa: 'Concluida'
+            })
+        });
+
+        if (response.ok) {
+            // Recarrega o gráfico e o calendário para refletir as mudanças
+            loadDashboardChart();
+            if (currentCalendar) currentCalendar.refetchEvents();
+        } else {
+            alert('Erro ao atualizar tarefa.');
+        }
+    } catch (error) {
+        console.error('Erro na atualização:', error);
+    }
+}
+
 function initCalendar() {
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) return;
@@ -113,73 +170,32 @@ function initCalendar() {
         selectable: true,
         businessHours: true,
         editable: true,
-        select: async function(info) {
-            const tipo = prompt('Digite "T" para nova Tarefa ou "E" para novo Evento:').toUpperCase();
-            
-            if (tipo !== 'T' && tipo !== 'E') {
-                calendar.unselect();
-                return;
-            }
-
-            const title = prompt('Digite o título:');
-            if (title) {
-                 const descricao = prompt('Digite uma breve descrição:');
-                const usuarioId = sessionStorage.getItem('user_id') || "6";
-
-                let url = "";
-                let corpo = {};
-
-                if (tipo === 'T') {
-                    url = 'http://localhost:8080/api/tarefas';
-                    corpo = {
-                        titulo: title,
-                        descricao: descricao,
-                        dataTarefa: info.startStr,
-                        statusTarefa: "Pendente",
-                        usuarioId: usuarioId.toString()
-                    };
-                } else {
-                    url = 'http://localhost:8080/api/eventos';
-                    // Ajusta formato para LocalDateTime (YYYY-MM-DDTHH:mm:ss)
-                    const dataEvento = info.startStr.includes("T") ? info.startStr : info.startStr + "T00:00:00";
-                    corpo = {
-                        titulo: title,
-                        descricao: descricao,
-                        dataEvento: dataEvento,
-                        usuarioId: usuarioId.toString()
-                    };
-                }
-
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(corpo)
-                    });
-
-                    if (response.ok) {
-                        calendar.addEvent({
-                            title: (tipo === 'T' ? "[T] " : "[E] ") + title,
-                            start: info.startStr,
-                            backgroundColor: tipo === 'T' ? '#5ce1e6' : '#3195f2',
-                            allDay: info.allDay
-                        });
-                    } else {
-                        alert('Erro ao salvar no servidor.');
-                    }
-                } catch (error) {
-                    console.error("Erro na requisição:", error);
+        select: function(info) {
+            currentSelectionInfo = info;
+            const modal = document.getElementById('modalCadastro');
+            if (modal) modal.style.display = 'flex';
+        },
+        eventClick: function(info) {
+            // Se for uma tarefa (marcada com [T]), permite concluir
+            if (info.event.title.startsWith("[T]")) {
+                const id = info.event.extendedProps.dbId;
+                const titulo = info.event.title.replace("[T] ", "");
+                
+                const acao = prompt(`Tarefa: ${titulo}\n\nDigite:\n1 - Marcar como Concluída\n2 - Excluir Tarefa\n0 - Cancelar`, "1");
+                if (acao === "1") {
+                    mudarStatusTarefa(id, titulo);
+                } else if (acao === "2") {
+                    excluirTarefa(id);
                 }
             }
-            calendar.unselect();
         },
         events: async function(info, successCallback, failureCallback) {
             try {
                 const usuarioId = sessionStorage.getItem('user_id');
                 
                 const [resTarefas, resEventos] = await Promise.all([
-                    fetchAutenticado(`http://localhost:8080/api/tarefas?usuarioId=${usuarioId}`),
-                    fetchAutenticado(`http://localhost:8080/api/eventos?usuarioId=${usuarioId}`)
+                    fetchAutenticado(`http://127.0.0.1:8080/api/tarefas?usuarioId=${usuarioId}`),
+                    fetchAutenticado(`http://127.0.0.1:8080/api/eventos?usuarioId=${usuarioId}`)
                 ]);
 
                 const tarefas = await resTarefas.json();
@@ -188,7 +204,8 @@ function initCalendar() {
                 const formatTarefas = tarefas.map(t => ({
                     title: "[T] " + t.titulo,
                     start: t.dataTarefa,
-                    backgroundColor: '#5ce1e6'
+                    backgroundColor: t.statusTarefa === 'Concluida' ? '#84bfae' : '#5ce1e6',
+                    extendedProps: { dbId: t.id } // Guarda o ID do banco para o clique
                 }));
 
                 const formatEventos = eventos.map(e => ({
@@ -204,6 +221,62 @@ function initCalendar() {
             }
         }
     });
+
+    currentCalendar = calendar;
+
+    document.getElementById('formCadastro').onsubmit = async function(e) {
+        e.preventDefault();
+        if (!currentSelectionInfo) return;
+
+        const tipo = document.getElementById('modalTipo').value;
+        const title = document.getElementById('modalTitulo').value;
+        const descricao = document.getElementById('modalDescricao').value;
+        const prioridade = document.getElementById('modalPrioridade').value;
+        const usuarioId = sessionStorage.getItem('user_id') || "6";
+        const info = currentSelectionInfo;
+
+        let url = "";
+        let corpo = {};
+
+        if (tipo === 'T') {
+            url = 'http://127.0.0.1:8080/api/tarefas';
+            corpo = {
+                titulo: title,
+                descricao: descricao,
+                dataTarefa: info.startStr,
+                prioridade: prioridade,
+                statusTarefa: "Pendente",
+                usuarioId: usuarioId.toString()
+            };
+        } else {
+            url = 'http://127.0.0.1:8080/api/eventos';
+            const dataEvento = info.startStr.includes("T") ? info.startStr : info.startStr + "T00:00:00";
+            corpo = {
+                titulo: title,
+                descricao: descricao,
+                dataEvento: dataEvento,
+                usuarioId: usuarioId.toString()
+            };
+        }
+
+        try {
+            const response = await fetchAutenticado(url, {
+                method: 'POST',
+                body: JSON.stringify(corpo)
+            });
+
+            if (response.ok) {
+                // Força o calendário e o gráfico a atualizarem com dados reais do banco
+                calendar.refetchEvents();
+                loadDashboardChart();
+                fecharModal();
+            } else {
+                alert('Erro ao salvar no servidor.');
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+        }
+    };
 
     calendar.render();
 }

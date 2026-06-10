@@ -11,16 +11,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         return;
     }
 
-    // MOCK: Usuário temporário para teste sem backend
-    if (email === "teste@teste.com" && password === "123456") {
-        sessionStorage.setItem('meu_jwt', 'token-fake-12345');
-        sessionStorage.setItem('user_name', 'Usuário de Teste');
-        sessionStorage.setItem('user_id', '6'); // ID de teste
-        sessionStorage.setItem('user_email', email);
-        window.location.href = "dashboard.html";
-        return;
-    }
-
     const userData = {
         email: email,
         password: password

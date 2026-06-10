@@ -1,8 +1,15 @@
 
 const isInsidePaginas = window.location.pathname.includes('/paginas/');
-const isHomePage = !isInsidePaginas;
+const isLoginPage = window.location.pathname.includes('login.html');
+const isCadastroPage = window.location.pathname.includes('cadastro.html');
 
-if (!sessionStorage.getItem('meu_jwt') && !isHomePage) {
+// Uma página é pública se for a Home (fora de /paginas/), Login ou Cadastro
+const isPublicPage = !isInsidePaginas || isLoginPage || isCadastroPage;
+
+const token = sessionStorage.getItem('meu_jwt');
+const hasValidToken = token && token !== "undefined";
+
+if (!hasValidToken && !isPublicPage) {
     const loginPath = isInsidePaginas ? 'login.html' : 'paginas/login.html';
     window.location.href = loginPath; 
 }
@@ -62,18 +69,7 @@ async function fetchAutenticado(url, opcoes = {}) {
 
         return resposta;
     } catch (error) {
-        console.warn("Backend offline, usando dados de teste (Mock).", error);
-        
-        if (url.includes('/api/dashboard/chart-data')) {
-            return {
-                ok: true,
-                json: async () => ({
-                    labels: ["Teste A", "Teste B", "Teste C"],
-                    values: [40, 30, 30]
-                })
-            };
-        }
-        
+        console.error("Erro na comunicação com o servidor:", error);
         throw error;
     }
 }
